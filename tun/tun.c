@@ -57,7 +57,7 @@ int createClientSocket(char *sin_addr, uint16_t sin_port)
     if (net_fd < 0)
     {
         perror("socket");
-        exit(1);
+        return -1;
     }
 
     struct sockaddr_in addr;
@@ -68,7 +68,7 @@ int createClientSocket(char *sin_addr, uint16_t sin_port)
     if (err < 0)
     {
         perror("connect");
-        exit(1);
+        return -1;
     }
 
     return net_fd;
@@ -82,7 +82,7 @@ int createServerSocket(char *sin_addr, uint16_t sin_port)
     if (listen_fd < 0)
     {
         perror("socket");
-        exit(1);
+        return -1;
     }
 
     struct sockaddr_in addr;
@@ -93,67 +93,26 @@ int createServerSocket(char *sin_addr, uint16_t sin_port)
     if (ret < 0)
     {
         perror("bind");
-        exit(1);
+        return -1;
     }
 
     ret = listen(listen_fd, 5);
     if (ret < 0)
     {
         perror("listen");
-        exit(1);
+        return -1;
     }
 
-    // wait a new connect
-    int net_fd = -1;
-    while (1)
+    struct sockaddr_in client_addr;
+    socklen_t client_len = sizeof(client_addr);
+    int client_fd = accept(listen_fd, (struct sockaddr*)&client_addr, &client_len);
+    if(client_fd < 0)
     {
-        fd_set rd_set;
-
-        FD_ZERO(&rd_set);
-        FD_SET(listen_fd, &rd_set);
-
-        ret = select(listen_fd + 1, &rd_set, NULL, NULL, NULL);
-
-        if (ret < 0 && errno == EINTR)
-        {
-            continue;
-        }
-
-        if (ret < 0)
-        {
-            perror("select");
-            exit(1);
-        }
-
-        for (int fd = 0; fd < listen_fd + 1; ++fd)
-        {
-            if (FD_ISSET(fd, &rd_set))
-            {
-                // 新的连接
-                if (fd == listen_fd)
-                {
-                    struct sockaddr_in client_addr;
-                    socklen_t client_len = sizeof(client_addr);
-                    int client_fd = accept(listen_fd, (struct sockaddr *)&client_addr, &client_len);
-                    if (client_fd < 0)
-                    {
-                        perror("accept");
-                        continue;
-                    }
-
-                    net_fd = client_fd;
-                    break;
-                }
-            }
-        }
-
-        if (net_fd > 0)
-        {
-            break;
-        }
+        perror("accept");
+        return -1;
     }
 
-    return net_fd;
+    return client_fd;
 }
 
 int main(int argc, char *argv[])
@@ -161,7 +120,7 @@ int main(int argc, char *argv[])
     if (argc != 5)
     {
         printf("tun [-c|-s] [tun_name] [addr] [port]\n");
-        return 0;
+        return 1;
     }
 
     bool client_flag = true;
@@ -197,11 +156,18 @@ int main(int argc, char *argv[])
     if (tun_fd < 0)
     {
         perror("Allocating interface.");
-        exit(1);
+        return 1;
     }
 
     // create socket
-    int net_fd = client_flag == true ? createClientSocket(addr, port) : createServerSocket(addr, port);
+    int net_fd = -1;
+    if(client_flag)
+        net_fd = createClientSocket(addr, port);
+    else
+        net_fd = createServerSocket(addr, port);
+
+    if(net_fd < 0)
+        return 1;
 
     printf("tun_fd = %d, net_fd = %d\n", tun_fd, net_fd);
 
@@ -216,7 +182,6 @@ int main(int argc, char *argv[])
         FD_SET(net_fd, &rd_set);
 
         ret = select(max_fd + 1, &rd_set, NULL, NULL, NULL);
-
         if (ret < 0 && errno == EINTR)
         {
             continue;
@@ -225,7 +190,7 @@ int main(int argc, char *argv[])
         if (ret < 0)
         {
             perror("select");
-            exit(1);
+            break;
         }
 
         int nread = 0;
