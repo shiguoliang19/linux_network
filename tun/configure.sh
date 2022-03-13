@@ -51,6 +51,14 @@ runServer(){
 
 }
 
+runCMake(){
+    rm -rf ./build/*
+    cmake -S ./ -B ./build
+    cd ./build
+    make
+    cd ..
+}
+
 if [ $1 == "-c" ]; then
 
     clean
@@ -70,5 +78,11 @@ fi
 if [ $1 == "-d" ]; then
 
     clean
+
+fi
+
+if [ $1 == "-cmake" ]; then
+
+    runCMake
 
 fi
