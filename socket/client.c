@@ -19,7 +19,7 @@ int main()
     int len = 0;
     char send_buf[1024];
     char recv_buf[1024];
-    int ret;
+    int ret = -1;
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1)
