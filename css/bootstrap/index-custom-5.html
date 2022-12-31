@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>图片放大</title>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var large_image = '<img src= ' + 'assets/01.jpeg' + ' /img>';
+            $('#dialog_large_image').html($(large_image).animate({ height: '50%', width: '50%' }, 500));
+        });
+    </script>
+</head>
+
+<body>
+    <div class=".a">
+        <img class="dialog" src="assets/01.jpeg">
+        <div id="dialog_large_image">
+
+        </div>
+    </div>
+</body>
+
+</html>

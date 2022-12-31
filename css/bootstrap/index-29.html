@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bootstrap 实例</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 堆叠表单 -->
+        <form action="">
+            <div class="form-group">
+                <label for="email">Email address:</label>
+                <input type="email" class="form-control" placeholder="Enter emial" id="email">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" placeholder="Enter password" id="pwd">
+            </div>
+            <div class="form-grooup form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox"> Remember me
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <!-- 内联表单 -->
+        <form class="form-inline">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="email">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="pwd">
+            <div class="form-check">
+                <label class="form-check-label" type="checkbox"> Remember me
+                    <input class="form-check-input">
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <!-- 表单行/网格 -->
+        <form>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+                </div>
+                <div class="col">
+                    <input type="password" class="form-control" placeholder="Enter password" name="password">
+                </div>
+            </div>
+        </form>
+
+        <!-- 表单验证 -->
+        <form action="" class="was-validated">
+            <div class="form-group">
+                <label for="uname">Username:</label>
+                <input type="text" class="form-control" id="uname" placeholder="Enter username" name="uname" required>
+                <div class="valid-feedback">验证成功！</div>
+                <div class="invalid-feedback">请输入用户名！</div>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
+                <div class="valid-feedback">验证成功！</div>
+                <div class="invalid-feedback">请输入密码！</div>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="remember" required> 同意协议
+                    <div class="valid-feedback">验证成功！</div>
+                    <div class="invalid-feedback">同意协议才能提交。</div>
+                </label>
+            </div>
+        </form>
+
+    </div>
+</body>
+
+</html>
