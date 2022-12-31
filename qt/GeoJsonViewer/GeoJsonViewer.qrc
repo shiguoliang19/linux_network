@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/icons8-back-100.png</file>
+        <file>resources/icons8-forward-100.png</file>
+        <file>resources/icons8-open-sign-100.png</file>
+        <file>resources/icons8-thumbnail-view.png</file>
+        <file>resources/icons8-thumbnail-view2.png</file>
+        <file>resources/icons8-polygon-64.png</file>
+        <file>resources/icons8-polyline-90.png</file>
+        <file>resources/icons8-rectangular-90.png</file>
+        <file>resources/icons8-select-90.png</file>
+    </qresource>
+</RCC>
